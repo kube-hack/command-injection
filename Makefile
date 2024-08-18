@@ -1,7 +1,7 @@
 .PHONY: install
 
 build:
-	docker build . -t asteurer/test
+	docker build . -t ghcr.io/kube-hack/command-injection
 
 push:
 	docker push ghcr.io/kube-hack/command-injection
