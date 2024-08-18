@@ -65,25 +65,23 @@ func ping(w http.ResponseWriter, r *http.Request) {
 
 // validate checks the flag file's content with the request body to see if they match
 func validate(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		bodyBytes, err := io.ReadAll(r.Body)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		defer r.Body.Close()
+	bodyBytes, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer r.Body.Close()
 
-		fileBytes, err := os.ReadFile(secretFilePath)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+	fileBytes, err := os.ReadFile(secretFilePath)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-		if string(fileBytes) == string(bodyBytes) {
-			w.Write([]byte("Success! You found the flag."))
-		} else {
-			w.Write([]byte("The string submitted doesn't match the content of the flag file."))
-		}
+	if string(fileBytes) == string(bodyBytes) {
+		w.Write([]byte("Success! You found the flag."))
+	} else {
+		w.Write([]byte("The string submitted doesn't match the content of the flag file."))
 	}
 }
 
